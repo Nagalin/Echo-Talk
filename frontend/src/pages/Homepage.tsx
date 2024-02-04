@@ -4,7 +4,7 @@ import UserList from "../features/chat/components/UserList"
 const Homepage = () => {
   return (
     <div className="d-flex">
-      <UserList/>
+      {/* <UserList/> */}
       {/* <Chatbox/> */}
     </div>
   )
