@@ -1,4 +1,3 @@
-import React from 'react';
 import { Form, Container, Stack, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import useRegister from '../hooks/useRegister';
@@ -9,6 +8,7 @@ const RegisterForm = () => {
         usernameRef,
         passwordRef,
         confirmPasswordRef,
+        setFile,
         error,
         handleRegister
     } = useRegister()
@@ -30,6 +30,10 @@ const RegisterForm = () => {
                     <Form.Label>Username</Form.Label>
                     <Form.Control ref={usernameRef} type="text" placeholder="Enter username" />
 
+                    <Form.Label className='mt-3'>Insert your profile image</Form.Label>
+                    <Form.Control type='file' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFile(e.target.files && e.target.files[0])}/>
+
+
                     <Form.Label>Password</Form.Label>
                     <Form.Control ref={passwordRef} type="password" placeholder="Enter password" />
 
@@ -46,7 +50,7 @@ const RegisterForm = () => {
                         </Alert>
                     )}
 
-                    <Button type='submit' variant='primary'>Login</Button>
+                    <Button type='submit' variant='primary'>Register</Button>
                 </Stack>
             </Form>
         </Container>

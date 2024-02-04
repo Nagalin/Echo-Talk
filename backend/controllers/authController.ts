@@ -37,6 +37,7 @@ export const loginController = async (req: Request, res: Response) => {
 //@access           public
 export const registerController = async (req: Request, res: Response) => {
     const {username, password} = req.body
+    console.log(req.body)
     if(!username || !password) return res.status(400).send('Username and password are required')
 
     try {
@@ -49,6 +50,7 @@ export const registerController = async (req: Request, res: Response) => {
         username: username,
         password: hashedPassword
     })
+    
     return res.status(201).send('Your account have been created')
         
     } catch (error) {
