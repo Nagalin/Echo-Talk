@@ -2,6 +2,10 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import bcrypt from 'bcrypt'
 import generaeToken from "../utils/generateToken";
+import AuthRequest from "../interfaces/AuthRequest";
+import jwt, { JwtPayload } from 'jsonwebtoken'
+import {config} from 'dotenv'
+config()
 
 //@description      authenticate user credentials
 //@route            POST /login
@@ -61,5 +65,33 @@ export const registerController = async (req: Request, res: Response) => {
         
     }
     
+
+}
+
+export const refreshTokenController = async(req: AuthRequest, res: Response) =>{
+    const REFRESH_TOKEN_KEY = process.env.REFRESH_TOKEN_KEY
+    const ACCESS_TOKEN_KEY = process.env.ACCESS_TOKEN_KEY
+    if(!REFRESH_TOKEN_KEY || ! ACCESS_TOKEN_KEY) {
+        throw new Error('Access token key and refresh token key are requried in env file')
+    }
+
+    const cookiesHeader = req.headers.cookie
+    if(!cookiesHeader) return res.status(403).send('Cookies header are missing')
+
+    let refreshToken = ''
+    const cookies = cookiesHeader.split('; ')
+    cookies.map((cookie) => {
+        let token = cookie.split('=')
+        if(token[0] === 'refreshToken') refreshToken = token[1]
+    })
+
+    jwt.verify(refreshToken,REFRESH_TOKEN_KEY,(err,decoded) => {
+        if(err) return res.status(403).send('Invalid access token')
+        decoded = decoded as JwtPayload
+        
+       const accessToken = generaeToken(decoded.id,'ACCESS')
+       res.cookie('accessToken',accessToken,{httpOnly: true})
+       res.status(200).end()
+    })
 
 }
