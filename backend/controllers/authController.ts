@@ -8,6 +8,7 @@ import generaeToken from "../utils/generateToken";
 //@access           public
 export const loginController = async (req: Request, res: Response) => {
     const {username, password} = req.body
+   
     if(!username || !password) return res.status(400).send('Username and password are required')
     
     try {
@@ -37,7 +38,7 @@ export const loginController = async (req: Request, res: Response) => {
 //@access           public
 export const registerController = async (req: Request, res: Response) => {
     const {username, password} = req.body
-    console.log(req.body)
+    const picName = req.file?.filename
     if(!username || !password) return res.status(400).send('Username and password are required')
 
     try {
@@ -48,7 +49,8 @@ export const registerController = async (req: Request, res: Response) => {
 
     User.create({
         username: username,
-        password: hashedPassword
+        password: hashedPassword,
+        picName: picName
     })
     
     return res.status(201).send('Your account have been created')
