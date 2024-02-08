@@ -1,6 +1,6 @@
 import { Dropdown, Nav, NavDropdown, Navbar as NavbarBs } from 'react-bootstrap'
 import { Outlet } from 'react-router-dom';
-import Drawer from './Drawer';
+import Drawer from '../features/search-for-user/components/Drawer';
 import { useState } from 'react';
 
 const Navbar = () => {
