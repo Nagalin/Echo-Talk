@@ -16,10 +16,6 @@ const Drawer = ({handleClose,show}: DrawerPropsType) => {
   const [searchString,setSearchString] = useState('')
   const result = useDebouncedSearch<UserListType[]>(searchString,[])
 
-  useEffect(() => {
-    console.log(result)
-  },[result])
-  
   return (
     <>
     <Offcanvas show={show} onHide={handleClose}>

@@ -4,19 +4,25 @@ import Register from './pages/Register'
 import Homepage from './pages/Homepage'
 import Navbar from './components/Navbar'
 import Protected from './components/Protected'
+import { SocketContextProvider } from './contexts/SocketContext'
+import { AuthContextProvider } from './contexts/AuthContext'
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+    <AuthContextProvider>
+    <SocketContextProvider>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-      <Route element={<Protected />}>
-        <Route element={<Navbar />}>
-          <Route path='/homepage' element={<Homepage />} />
+        <Route element={<Protected />}>
+          <Route element={<Navbar />}>
+            <Route path='/homepage' element={<Homepage />} />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </SocketContextProvider>
+    </AuthContextProvider>
   )
 }
 

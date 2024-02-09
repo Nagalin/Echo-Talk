@@ -12,6 +12,7 @@ const PORT = process.env.PORT ?? 3000
 const app = express()
 const server = http.createServer(app)
 
+app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(cors(corsOption))
 app.use(router)
