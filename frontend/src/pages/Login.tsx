@@ -1,9 +1,6 @@
-import React from 'react'
-import LoginForm from '../features/login/components/LoginForm'
-
 const Login = () => {
   return (
-    <LoginForm/>
+    <div>Login</div>
   )
 }
 
