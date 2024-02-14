@@ -1,9 +1,20 @@
-import { Box, FormControl, FormLabel, Input } from '@chakra-ui/react'
+import {  Box, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import Button from '../../../components/ui/Button'
+import useRegister from '../hooks/useRegister'
+import Alert from '../../../components/ui/Alert'
 
 const RegisterForm = () => {
+    const {
+        username,
+        password,
+        confirmPassword,
+        setImage,
+        handleRegister,
+        error
+    } = useRegister()
+
     return (
-        <form
+        <form onSubmit={handleRegister}
         >
             <Box
                 boxShadow='outline'
@@ -44,16 +55,22 @@ const RegisterForm = () => {
                 >
                     <div>
                         <FormLabel>Username</FormLabel>
-                        <Input type='text' />
+                        <Input ref={username} type='text' />
                     </div>
 
                     <div>
                         <FormLabel>Password</FormLabel>
-                        <Input type='password' />
+                        <Input ref={password} type='password' />
+                    </div>
+
+                    <div>
+                        <FormLabel>Confirm password</FormLabel>
+                        <Input ref={confirmPassword} type='password' />
                     </div>
 
                     <div>
                         <Input
+                            onChange={e => setImage(e.target.files?.[0])}
                             type="file"
                             variant="outline"
                             borderColor="gray.300"
@@ -67,7 +84,8 @@ const RegisterForm = () => {
                             }}
                         />
                     </div>
-                    <Button>Login</Button>
+                    {error && <Alert description={error}/>}
+                    <Button>Register</Button>
                 </FormControl>
             </Box>
         </form>

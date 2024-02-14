@@ -1,12 +1,13 @@
 import { AxiosError } from "axios";
 import axios from "../../../lib/axios";
 
-export const loginUser = async (username: string | undefined, password: string | undefined) => {
+const loginService = async (username: string | undefined, password: string | undefined) => {
     try {
         const response = await axios.post('/login', { username, password });
-        return response.data;
+        return response
     } catch (error) {
-        const err = error as AxiosError;
-        throw err.response?.data;
+        throw error
     }
 };
+
+export default loginService

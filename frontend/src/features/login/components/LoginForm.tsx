@@ -1,9 +1,18 @@
 import { Box, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import Button from '../../../components/ui/Button'
+import useLogin from '../hooks/useLogin'
+import Alert from '../../../components/ui/Alert'
 
 const LoginForm = () => {
+    const {
+        username,
+        password,
+        handleLogin,
+        error
+    } = useLogin()
+
     return (
-        <form 
+        <form onSubmit={handleLogin}
         >
             <Box
                 boxShadow='outline'
@@ -44,14 +53,14 @@ const LoginForm = () => {
                 >
                     <div>
                         <FormLabel>Username</FormLabel>
-                        <Input type='text' />
+                        <Input ref={username} type='text' />
                     </div>
 
                     <div>
                         <FormLabel>Password</FormLabel>
-                        <Input type='password' />
+                        <Input ref={password} type='password' />
                     </div>
-
+                    {error && <Alert description={error}/>}
                     <Button>Login</Button>
                 </FormControl>
             </Box>

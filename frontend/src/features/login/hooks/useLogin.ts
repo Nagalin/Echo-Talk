@@ -1,6 +1,7 @@
 import { FormEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from '../services/loginUser';
+import loginService from '../services/loginUser';
+import { AxiosError } from "axios";
 
 const useLogin = () => {
     const username = useRef<HTMLInputElement>(null);
@@ -12,11 +13,12 @@ const useLogin = () => {
         e.preventDefault();
 
         try {
-            await loginUser(username.current?.value , password.current?.value);
+            await loginService(username.current?.value , password.current?.value);
             navigate('/homepage');
-        } catch (error: any) {
-            console.error(error);
-            setError(error);
+        } catch (error) {
+            console.error(error)
+            if(error instanceof AxiosError)
+            setError(error.response?.data)
         }
     };
 
