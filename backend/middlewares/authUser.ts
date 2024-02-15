@@ -9,7 +9,7 @@ const authUser = (req: AuthRequest, res: Response, next: NextFunction) => {
     
     const cookiesHeader = req.headers.cookie
     
-    if(!cookiesHeader) return res.status(400).send('Cookie header is missing')
+    if(!cookiesHeader) return res.status(401).send('Cookie header is missing')
     const accessToken = extractTokenFromHeaders(cookiesHeader,'access-token')
     jwt.verify(accessToken,ACCESS_TOKEN_KEY, (err,decoded) => {
         if(err) return res.status(403).send('Invalid access token')

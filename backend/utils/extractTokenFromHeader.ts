@@ -8,7 +8,6 @@ const extractTokenFromHeaders = (cookiesHeader: string, tokenType: 'access-token
 
         if(key === tokenType) token = value
     })
-    console.log(token)
 
     return token
 }

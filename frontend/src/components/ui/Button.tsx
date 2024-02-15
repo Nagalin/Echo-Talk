@@ -1,13 +1,12 @@
-import { Button as ChakraButton } from '@chakra-ui/react'
+import { Button as ChakraButton ,ButtonProps } from '@chakra-ui/react'
 import { ReactNode } from 'react'
 
-type ButtonPropsType = {
-    children: ReactNode
-}
 
-const Button = ({children}: ButtonPropsType) => {
+const Button = ({children,onClick}: ButtonProps) => {
   return (
-    <ChakraButton type='submit' colorScheme='blue'>{children}</ChakraButton>
+    <ChakraButton onClick={onClick} type='submit' colorScheme='blue'>
+      {children}
+    </ChakraButton>
   )
 }
 

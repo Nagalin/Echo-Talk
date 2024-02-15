@@ -6,7 +6,7 @@ config()
 const generateToken = (id: mongoose.Types.ObjectId, 
     tokenType: 'ACCESS_TOKEN' | 'REFRESH_TOKEN') => {
 
-        const expirationTime = tokenType === 'ACCESS_TOKEN' ? '5s' : '1d'
+        const expirationTime = tokenType === 'ACCESS_TOKEN' ? '5d' : '1d'
         const secretKey = tokenType === 'ACCESS_TOKEN' ?
          process.env.ACCESS_TOKEN_KEY : process.env.REFRESH_TOKEN_KEY
 

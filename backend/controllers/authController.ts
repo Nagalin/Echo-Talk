@@ -74,7 +74,7 @@ export const getNewAccessToken = async (req: AuthRequest, res: Response) => {
     if(!REFRESH_TOKEN_KEY) throw new Error('Refresh token key is required in env file')
 
     const cookiesHeader = req.headers.cookie
-    if(!cookiesHeader) return res.status(400).send('Cookies header are required')
+    if(!cookiesHeader) return res.status(401).send('Cookies header are required')
 
     const refreshToken = extractTokenFromHeaders(cookiesHeader,'refresh-token')
     jwt.verify(refreshToken, REFRESH_TOKEN_KEY, (error, decoded) => {
@@ -89,3 +89,5 @@ export const getNewAccessToken = async (req: AuthRequest, res: Response) => {
     })
 
 }
+
+
