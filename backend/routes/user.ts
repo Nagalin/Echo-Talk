@@ -1,7 +1,8 @@
 import express from 'express'
-import { fetchProfile } from '../controllers/userController'
+import { fetchProfile, fetchUser } from '../controllers/userController'
 const router = express.Router()
 
 router.get('/profile',fetchProfile)
+router.get('/user/:username',fetchUser)
 
 export default router

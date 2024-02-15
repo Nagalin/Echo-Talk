@@ -9,13 +9,21 @@ import {
     Input,
 } from '@chakra-ui/react'
 import Button from './ui/Button'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import useDebouncedSearch from '../hooks/useDebouncedSearch'
 
+type UserListType = {
+    username: string
+    _id: string
+}
 
 const Drawer = () => {
     const [open, setOpen] = useState(true)
-    const onOpen = () => setOpen(true)
     const onClose = () => setOpen(false)
+    const [searchValue,setSearchValue] = useState('')
+    const result = useDebouncedSearch<UserListType[]>('/user',searchValue)
+
+    
 
     return (
         <>
@@ -32,7 +40,10 @@ const Drawer = () => {
                     <DrawerHeader>Create your account</DrawerHeader>
 
                     <DrawerBody>
-                        <Input placeholder='Type here...' />
+                        <Input 
+                        onChange={e => setSearchValue(e.target.value)} 
+                        placeholder='Enter username' 
+                    />
                     </DrawerBody>
 
                 </DrawerContent>

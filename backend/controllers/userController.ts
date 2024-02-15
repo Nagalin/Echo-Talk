@@ -2,7 +2,7 @@ import { Response } from "express";
 import AuthRequest from "../interfaces/AuthRequest";
 import User from "../models/User";
 
-export const fetchProfile = async (req: AuthRequest, res: Response)=>{
+export const fetchProfile = async (req: AuthRequest, res: Response)=> {
     const id = req.id
     try {
         const user = await User.findOne({_id: id},'username picName _id')
@@ -18,4 +18,21 @@ export const fetchProfile = async (req: AuthRequest, res: Response)=>{
     }
    
 
- }
+}
+
+export const fetchUser = async (req: AuthRequest, res: Response) => {
+    const username = req.params.username
+    console.log(username)
+    const myId = req.id
+
+    const user = await User.find({
+        $and:[
+            {username: {$regex: username}},
+            {_id: {$ne: myId}}
+        ]
+    },'-picName -password -__v')
+
+    console.log(user)
+    res.status(200).send(user)
+
+}
