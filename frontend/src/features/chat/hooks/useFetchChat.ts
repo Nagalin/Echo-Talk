@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import axios from "../../../lib/axios"
 import { AxiosError } from "axios"
 
-const useFetchChat =  <T>(url: string, initialValue: T, params: string): [T,boolean,string] => {
+const useFetchChat =  <T>(url: string, initialValue: T, params: string): 
+[T,Dispatch<SetStateAction<T>>,boolean,string] => {
       const [data, setData] = useState<T>(initialValue)
       const [error,setError] = useState('')
       const [loading,setLoading] = useState(true)
@@ -25,11 +26,11 @@ const useFetchChat =  <T>(url: string, initialValue: T, params: string): [T,bool
         if(!params) return
         fetch()
 
-      },[url])
+      },[url,params])
 
      
 
-      return  [data,loading, error]
+      return  [data,setData,loading, error]
 
 }
 

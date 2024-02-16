@@ -1,22 +1,24 @@
-import { FormEvent, useRef } from "react"
+import { Dispatch, FormEvent, SetStateAction, useRef } from "react"
 import { useChatContext } from "../../../contexts/ChatContext"
 import { useSocketContext } from "../../../contexts/SocketContext"
 import { useAuthContext } from "../../../contexts/AuthContext"
 
 const useChat = () => {
     const { socket } = useSocketContext()
-    const { userId } = useChatContext()
+    const { recieverId, chatId } = useChatContext()
     const {id} = useAuthContext()
     const message = useRef<HTMLInputElement>(null)
 
-    const handleChat = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-
+    const handleChat = (setData: Dispatch<SetStateAction<any>>) => {
+       
         socket?.emit("chat", {
             senderId: id,
+            chatId:  chatId,
             message: message.current?.value,
-            recieverId: userId
+            recieverId: recieverId
         })
+
+        setData((prev: any) => [...prev,{content: message.current?.value,sender: id}])
     }
 
     return { message, handleChat }

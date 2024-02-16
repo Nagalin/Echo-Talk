@@ -38,8 +38,8 @@ const initialSocket = (httpServer: httpServer ) => {
                 content: payload.message
             })
             await Chat.findOneAndUpdate({
-                lastMessage: newMessage
-            })
+                _id:payload.chatId
+            },{lastMessage: newMessage})
             const recieverSocketId = onlineUsers.find(curr => curr.userId === payload.recieverId)
             console.log(recieverSocketId)
             io.to(recieverSocketId?.socketId!).emit('chat',payload)

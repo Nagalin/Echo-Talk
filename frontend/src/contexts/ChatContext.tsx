@@ -2,8 +2,8 @@ import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useStat
 
 type ChatContextType = {
     chatId: string,
-    userId: string
-    setUserId: Dispatch<SetStateAction<string>>
+    recieverId: string
+    setRecieverId: Dispatch<SetStateAction<string>>
     setChatId: Dispatch<SetStateAction<string>>
 }
 
@@ -18,9 +18,9 @@ export const useChatContext = () => {
 
 export const ChatContextProvider = ({children}: ChatContextProviderPropsType)  => {
     const [chatId,setChatId] = useState('')
-    const [userId,setUserId] = useState('')
+    const [recieverId,setRecieverId] = useState('')
     return (
-        <ChatContext.Provider value={{chatId,userId,setChatId,setUserId}}>
+        <ChatContext.Provider value={{chatId,recieverId,setChatId,setRecieverId}}>
             {children}
         </ChatContext.Provider>
     )

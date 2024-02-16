@@ -8,13 +8,13 @@ type UserListPropsType = {
 }
 
 const UserList = ({ username, id }: UserListPropsType) => {
-    const {setChatId, setUserId} = useChatContext()
+    const {setChatId, setRecieverId} = useChatContext()
 
     const handleClick = async () => {
         try {
             const chatId = await accessChatService(id);
             setChatId(chatId);
-            setUserId(id)
+            setRecieverId(id)
         } catch (error) {
             console.error(error);
         }

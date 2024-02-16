@@ -3,55 +3,88 @@ import Button from '../../../components/ui/Button'
 import { useEffect } from 'react'
 import { useSocketContext } from '../../../contexts/SocketContext'
 import { Box, Input, Text, VStack } from '@chakra-ui/react'
-import useFetch from '../../../hooks/useFetch'
 import { useChatContext } from '../../../contexts/ChatContext'
 import useFetchChat from '../hooks/useFetchChat'
+import { useAuthContext } from '../../../contexts/AuthContext'
 
 type ChatType = {
   sender: string,
-  reciever: string,
+  reciever?: string,
+  chatId: string
   content: string
 }
+
+type Test = {
+  senderId: string,
+  recieverId?: string,
+  chatId: string
+  message: string
+}
 const ChatBox = () => {
-  const {userId} = useChatContext()
-  const {message, handleChat} = useChat()
-  const {socket} = useSocketContext()
+  const { recieverId, chatId } = useChatContext()
+  const { id } = useAuthContext()
+  const { message, handleChat } = useChat()
+  const { socket } = useSocketContext()
 
-  const [data] = useFetchChat<ChatType[]>('/message',[],userId)
+  const [data, setData] = useFetchChat<ChatType[]>('/message', [], recieverId)
+
+ 
 
   useEffect(() => {
-    console.log(data)
-  },[data])
+    socket?.on('chat', (payload: Test) => {
+      console.log(payload)
+      if(chatId !== payload.chatId) return
 
-  useEffect(() => {
-    socket?.on('chat',payload => console.log(payload))
+      setData(prev => [
+        ...prev,
+        {
+          sender: payload.senderId,
+          reciever: payload.recieverId,
+          chatId: payload.chatId,
+          content: payload.message
+        }
+      ])
+            
+    })
 
     return () => {
       socket?.off('chat')
 
     }
   })
-  
+
   return (
-    <form onSubmit={handleChat}>
+    <form onSubmit={(e) => {
+      e.preventDefault()
+      handleChat(setData)
+    }
+    }>
 
-    <Box className="chat-box">
-      <VStack spacing={4} align="stretch">
-        <Box className="messages-container">
-          <Text textAlign="left" bg="gray.100" p={2} borderRadius="md">
-            Dummy message
-          </Text>
+      <Box className="chat-box">
+        <VStack spacing={4} align="stretch">
+          <Box className="messages-container">
+            {data.map(curr => (
+              <>
+                {curr.sender === id ?
 
-          <Text textAlign="right" bg="blue.100" p={2} borderRadius="md">
-            Dummy message
-          </Text>
-        </Box>
-        <Box className="input-container">
-          <Input ref={message} type="text" placeholder="Type your message..." />
-          <Button colorScheme="blue" onClick={() => {/* Implement sending message */}}>Send</Button>
-        </Box>
-      </VStack>
-    </Box>
+                  <Text textAlign="right" bg="blue.100" p={2} borderRadius="md">
+                    {curr.content}
+                  </Text> :
+                  <Text textAlign="left" bg="gray.100" p={2} borderRadius="md">
+                    {curr.content}
+                  </Text>
+                }
+
+
+              </>
+            ))}
+          </Box>
+          <Box className="input-container">
+            <Input ref={message} type="text" placeholder="Type your message..." />
+            <Button colorScheme="blue" onClick={() => {/* Implement sending message */ }}>Send</Button>
+          </Box>
+        </VStack>
+      </Box>
     </form>
   )
 }
