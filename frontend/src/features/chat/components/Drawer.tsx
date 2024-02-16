@@ -9,7 +9,7 @@ import {
     Box,
 } from '@chakra-ui/react'
 import {  useState } from 'react'
-import useDebouncedSearch from '../hooks/useDebouncedSearch'
+import useDebouncedSearch from '../../../hooks/useDebouncedSearch'
 import UserList from './UserList'
 
 type UserListType = {

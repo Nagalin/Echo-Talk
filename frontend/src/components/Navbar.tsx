@@ -1,7 +1,7 @@
 import { Box, Text } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import Drawer from './Drawer'
+import Drawer from '../features/chat/components/Drawer'
 
 const Navbar = () => {
     const [open, setOpen] = useState(false)

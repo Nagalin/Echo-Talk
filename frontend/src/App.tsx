@@ -2,30 +2,33 @@ import { Route, Routes } from 'react-router-dom'
 import Authenitcation from './pages/Authentication'
 import { AuthContextProvider } from './contexts/AuthContext'
 import Protected from './components/Protected'
-import Drawer from './components/Drawer'
 import Navbar from './components/Navbar'
 import Homepage from './pages/Homepage'
 import { SocketContextProvider } from './contexts/SocketContext'
+import { ChatContextProvider } from './contexts/ChatContext'
 
 const App = () => {
   return (
-    <SocketContextProvider>
-      <AuthContextProvider>
+    <ChatContextProvider>
+
+      <SocketContextProvider>
+        <AuthContextProvider>
 
 
-        <Routes>
-          <Route element={<Authenitcation />} path='/' />
+          <Routes>
+            <Route element={<Authenitcation />} path='/' />
 
-          <Route element={<Protected />}>
-            <Route element={<Navbar />}>
+            <Route element={<Protected />}>
+              <Route element={<Navbar />}>
 
-              <Route element={<Homepage />} path='/homepage' />
+                <Route element={<Homepage />} path='/homepage' />
+              </Route>
+
             </Route>
-
-          </Route>
-        </Routes>
-      </AuthContextProvider>
-    </SocketContextProvider>
+          </Routes>
+        </AuthContextProvider>
+      </SocketContextProvider>
+    </ChatContextProvider>
   )
 }
 
