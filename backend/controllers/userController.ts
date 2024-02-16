@@ -2,6 +2,9 @@ import { Response } from "express";
 import AuthRequest from "../interfaces/AuthRequest";
 import User from "../models/User";
 
+//@description    fetch user's profile for auth context
+//@route          GET/user
+//@access         protected
 export const fetchProfile = async (req: AuthRequest, res: Response)=> {
     const id = req.id
     try {

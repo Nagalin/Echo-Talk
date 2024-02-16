@@ -9,7 +9,7 @@ import AuthRequest from "../interfaces/AuthRequest";
 config()
 
 //@description    register a new user's to database
-//@route          /register
+//@route          POST/register
 //@access         public
 export const register = async (req: Request, res: Response) => {
     const { username, password } = req.body
@@ -39,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
 }
 
 //@description    Authenticate user's credentials
-//@route          /login
+//@route          POST/login
 //@access         public
 export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body
@@ -67,7 +67,7 @@ export const login = async (req: Request, res: Response) => {
 }
 
 //@description    get a new access token when an old one expired with valid refresh token
-//@route          /access-token
+//@route          GET/access-token
 //@access         public
 export const getNewAccessToken = async (req: AuthRequest, res: Response) => {
     const REFRESH_TOKEN_KEY = process.env.REFRESH_TOKEN_KEY

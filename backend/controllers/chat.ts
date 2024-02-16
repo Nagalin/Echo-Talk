@@ -1,7 +1,10 @@
-import { Response } from "express";
-import AuthRequest from "../interfaces/AuthRequest";
-import Chat from "../models/Chat";
+import { Response } from 'express'
+import AuthRequest from '../interfaces/AuthRequest'
+import Chat from '../models/Chat'
 
+//@description   access a chat or create a new one if not exists
+//@route          GET/chat/:id
+//@access         protected
 export const accessChat = async (req: AuthRequest, res: Response) => {
     const senderId = req.id
     const recieverId = req.params.id
@@ -21,4 +24,34 @@ export const accessChat = async (req: AuthRequest, res: Response) => {
 
     return res.status(200).send(chat)
 
+}
+
+//@description  fetch a last message for each chat
+//@route          GET/chat
+//@access         protected
+export const fetchChat = async (req: AuthRequest, res: Response) => {
+    const senderId = req.id
+
+    try {
+        const chat = await Chat.find({ users: { $in: [senderId] } },
+        '-_id -users -__v')
+    .populate({
+        path: 'lastMessage',
+        populate: {
+            path: 'reciever', // Assuming 'reciever' is a reference field
+            select: '_id username' // Specify the fields you want to populate in reciever
+        }
+    });
+
+    
+
+        if (!chat) {
+            return res.status(404).json({ message: 'Chat not found' })
+        }
+
+        return res.status(200).json(chat)
+    } catch (error) {
+        console.error('Error fetching chat:', error)
+        return res.status(500).json({ message: 'Internal server error' })
+    }
 }

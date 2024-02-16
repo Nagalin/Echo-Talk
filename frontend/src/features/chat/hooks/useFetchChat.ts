@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import axios from "../lib/axios"
+import axios from "../../../lib/axios"
 import { AxiosError } from "axios"
 
-const useFetch =  <T>(url: string, initialValue: T): [T,boolean,string] => {
+const useFetchChat =  <T>(url: string, initialValue: T, params: string): [T,boolean,string] => {
       const [data, setData] = useState<T>(initialValue)
       const [error,setError] = useState('')
       const [loading,setLoading] = useState(true)
@@ -10,7 +10,7 @@ const useFetch =  <T>(url: string, initialValue: T): [T,boolean,string] => {
       useEffect(() => {
         const fetch = async () => {
           try {
-            const response = await axios.get(url)
+            const response = await axios.get(`${url}/${params}`)
             setData(response.data)
           
         } catch (error) {
@@ -22,6 +22,7 @@ const useFetch =  <T>(url: string, initialValue: T): [T,boolean,string] => {
         }
 
         }
+        if(!params) return
         fetch()
 
       },[url])
@@ -32,4 +33,4 @@ const useFetch =  <T>(url: string, initialValue: T): [T,boolean,string] => {
 
 }
 
-export default useFetch
+export default useFetchChat
