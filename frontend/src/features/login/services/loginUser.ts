@@ -1,6 +1,4 @@
-import { AxiosError } from "axios";
 import axios from "../../../lib/axios";
-import { useSocketContext } from "../../../contexts/SocketContext";
 
 const loginService = async (username: string | undefined, password: string | undefined) => {
    
