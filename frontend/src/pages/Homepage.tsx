@@ -1,9 +1,13 @@
-import Drawer from '../components/Drawer'
-import React from 'react'
+import ChatList from '../features/chat/components/ChatList'
+import ChatBox from '../features/chat/components/ChatBox'
+import { Box } from '@chakra-ui/react'
 
 const Homepage = () => {
   return (
-    <Drawer/>
+    <Box display='flex'>
+    <ChatList/>
+    <ChatBox/>
+    </Box>
 )
 }
 

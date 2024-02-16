@@ -6,12 +6,14 @@ import router from './routes'
 import './configs/database'
 import bodyParser from 'body-parser'
 import corsOptions from './configs/cors'
+import initialSocket from './socket'
 config()
 
 const app = express()
 const PORT = process.env.PORT ?? 3000
 const server = http.createServer(app)
 
+initialSocket(server)
 app.use(bodyParser.json())
 app.use(cors(corsOptions))
 app.use(router)

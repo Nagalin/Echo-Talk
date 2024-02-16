@@ -2,8 +2,10 @@ import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useStat
 
 type AuthContextType = {
     username: string,
-    setUsername: Dispatch<SetStateAction<string>>,
-    picName: string,
+    id: string
+    setId: Dispatch<SetStateAction<string>>
+    setUsername: Dispatch<SetStateAction<string>>
+    picName: string
     setPicName: Dispatch<SetStateAction<string>>
 }
 
@@ -20,10 +22,13 @@ export const useAuthContext = () => {
 export const AuthContextProvider = ({children}: AuthContextProviderPropsType) => {
     const [username, setUsername] = useState('')
     const [picName,setPicName] = useState('')
+    const [id,setId] = useState('')
 
     return (
         <AuthContext.Provider value={{
             username,
+            id,
+            setId,
             setUsername,
             picName,
             setPicName

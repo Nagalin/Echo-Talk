@@ -1,29 +1,30 @@
 import {
     Drawer as ChakrsDrawer,
     DrawerBody,
-    DrawerFooter,
     DrawerHeader,
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
     Input,
+    Box,
 } from '@chakra-ui/react'
-import Button from './ui/Button'
-import { useEffect, useRef, useState } from 'react'
+import {  useState } from 'react'
 import useDebouncedSearch from '../hooks/useDebouncedSearch'
+import UserList from './UserList'
 
 type UserListType = {
     username: string
     _id: string
 }
 
-const Drawer = () => {
-    const [open, setOpen] = useState(true)
-    const onClose = () => setOpen(false)
-    const [searchValue,setSearchValue] = useState('')
-    const result = useDebouncedSearch<UserListType[]>('/user',searchValue)
-
-    
+type DrawerPropsType = {
+    open: boolean,
+    onClose: () => void
+}
+const Drawer = ({open,onClose}: DrawerPropsType) => {
+   
+    const [searchValue, setSearchValue] = useState('')
+    const result = useDebouncedSearch<UserListType[]>('/user', searchValue)
 
     return (
         <>
@@ -37,13 +38,19 @@ const Drawer = () => {
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader>Create your account</DrawerHeader>
+                    <DrawerHeader marginTop={8}> <Input
+                        onChange={e => setSearchValue(e.target.value)}
+                        placeholder='Enter username'
+                    /></DrawerHeader>
 
                     <DrawerBody>
-                        <Input 
-                        onChange={e => setSearchValue(e.target.value)} 
-                        placeholder='Enter username' 
-                    />
+                        <Box display='flex' flexDirection='column' mt={10} gap={3}>
+                            {result?.map(curr => (
+
+                                <UserList username={curr.username} id={curr._id} />
+
+                            ))}
+                        </Box>
                     </DrawerBody>
 
                 </DrawerContent>

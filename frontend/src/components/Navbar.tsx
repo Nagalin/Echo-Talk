@@ -1,13 +1,18 @@
 import { Box, Text } from '@chakra-ui/react'
+import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import Drawer from './Drawer'
 
 const Navbar = () => {
+    const [open, setOpen] = useState(false)
+    const onClose = () => setOpen(false)
     return (
         <>
             <Box display='flex' justifyContent='space-between' background='white' p={2}  >
-                <Box display='flex' gap={4} alignItems='center'>
+                <Box cursor='pointer'   onClick={()=>setOpen(true)} display='flex' gap={4} alignItems='center'>
 
                     <svg
+                  
                         viewBox="0 0 24 24"
                         fill="currentColor"
                         height="40"
@@ -24,6 +29,7 @@ const Navbar = () => {
                     <Text fontSize='lg'>Logout</Text>
                 </Box>
             </Box>
+            <Drawer open={open} onClose={onClose}/>
             <Outlet />
         </>
     )
