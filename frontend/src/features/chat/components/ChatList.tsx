@@ -53,7 +53,10 @@ const ChatList = () => {
     <VStack gap={5} h='100vh'background='white'>
       {data.map(currData => (
         <Box
-         onClick={()=>handleClick(currData.lastMessage.reciever._id)}
+         onClick={()=>handleClick(currData.lastMessage.reciever.username === username ?
+          currData.lastMessage.sender._id:
+          currData.lastMessage.reciever._id
+          )}
           _hover={{ background: 'lightblue' }}
           p={4} cursor='pointer'
           display='flex'

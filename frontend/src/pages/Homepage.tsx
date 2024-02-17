@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react'
 
 const Homepage = () => {
   return (
-    <Box display='flex' gap={50} marginTop={5}>
+    <Box display='flex' gap={5} marginTop={5}>
     <ChatList/>
     <ChatBox/>
     </Box>
