@@ -11,17 +11,16 @@ import {
 import {  useState } from 'react'
 import useDebouncedSearch from '../../../hooks/useDebouncedSearch'
 import UserList from './UserList'
+import { useDrawerContext } from '../../../contexts/DrawerContext'
 
 type UserListType = {
     username: string
     _id: string
 }
 
-type DrawerPropsType = {
-    open: boolean,
-    onClose: () => void
-}
-const Drawer = ({open,onClose}: DrawerPropsType) => {
+
+const Drawer = () => {
+    const {open, onClose} = useDrawerContext()
    
     const [searchValue, setSearchValue] = useState('')
     const result = useDebouncedSearch<UserListType[]>('/user', searchValue)

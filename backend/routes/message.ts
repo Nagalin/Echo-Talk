@@ -1,5 +1,5 @@
 import express from 'express'
-import { accessChat, fetchChat } from '../controllers/chat'
+import { accessChat, fetchChat } from '../controllers/chatControler'
 import { fetchMessage } from '../controllers/messageController'
 const router = express.Router()
 

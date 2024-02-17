@@ -6,10 +6,13 @@ import Navbar from './components/Navbar'
 import Homepage from './pages/Homepage'
 import { SocketContextProvider } from './contexts/SocketContext'
 import { ChatContextProvider } from './contexts/ChatContext'
+import { DrawerContextProvider } from './contexts/DrawerContext'
 
 const App = () => {
   return (
     <ChatContextProvider>
+      <DrawerContextProvider>
+
 
       <SocketContextProvider>
         <AuthContextProvider>
@@ -28,6 +31,7 @@ const App = () => {
           </Routes>
         </AuthContextProvider>
       </SocketContextProvider>
+      </DrawerContextProvider>
     </ChatContextProvider>
   )
 }

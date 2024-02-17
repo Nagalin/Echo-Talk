@@ -10,12 +10,12 @@ export const accessChat = async (req: AuthRequest, res: Response) => {
     const recieverId = req.params.id
 
     const chat = await Chat.findOne({
-        users: {$all: [senderId,recieverId]}
+        users: { $all: [senderId, recieverId] }
     })
 
-    if(!(!!chat)) {
+    if (!(!!chat)) {
         const newChat = await Chat.create({
-            users: [senderId,recieverId]
+            users: [senderId, recieverId]
 
         })
 
@@ -34,18 +34,18 @@ export const fetchChat = async (req: AuthRequest, res: Response) => {
 
     try {
         const chat = await Chat.find({ users: { $in: [senderId] } },
-        '-_id -users -__v')
-    .populate({
-        path: 'lastMessage',
-        populate: {
-            path: 'reciever', // Assuming 'reciever' is a reference field
-            select: '_id username' // Specify the fields you want to populate in reciever
-        }
-    });
-
-    
-
-        if (!chat) {
+            '-users -__v')
+            .sort({updatedAt: -1})
+            .populate({
+                path: 'lastMessage',
+                populate: {
+                    path: 'reciever sender',
+                    select: '_id username picName'
+                },
+                
+            })
+           
+        if (!(!!chat)) {
             return res.status(404).json({ message: 'Chat not found' })
         }
 
