@@ -9,20 +9,26 @@ export const accessChat = async (req: AuthRequest, res: Response) => {
     const senderId = req.id
     const recieverId = req.params.id
 
-    const chat = await Chat.findOne({
-        users: { $all: [senderId, recieverId] }
-    })
-
-    if (!(!!chat)) {
-        const newChat = await Chat.create({
-            users: [senderId, recieverId]
-
+    try {
+        const chat = await Chat.findOne({
+            users: { $all: [senderId, recieverId] }
         })
-
-        return res.status(200).send(newChat)
+    
+        if (!(!!chat)) {
+            const newChat = await Chat.create({
+                users: [senderId, recieverId]
+    
+            })
+    
+            return res.status(200).send(newChat)
+        }
+    
+        return res.status(200).send(chat)
+        
+    } catch (error) {
+        res.status(500).send('Internal server error')
+        console.error(error)
     }
-
-    return res.status(200).send(chat)
 
 }
 
@@ -52,6 +58,6 @@ export const fetchChat = async (req: AuthRequest, res: Response) => {
         return res.status(200).json(chat)
     } catch (error) {
         console.error('Error fetching chat:', error)
-        return res.status(500).json({ message: 'Internal server error' })
+        return res.status(500).send('Internal server error')
     }
 }

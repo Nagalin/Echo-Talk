@@ -14,8 +14,8 @@ config()
 export const register = async (req: Request, res: Response) => {
     const { username, password } = req.body
     const image = req.file?.filename
-    if (!username || !password || !image) {
-        return res.status(400).send('Username,password and image are required')
+    if (!username || !password) {
+        return res.status(400).send('Username and password are required')
     }
 
     try {
@@ -43,7 +43,7 @@ export const register = async (req: Request, res: Response) => {
 //@access         public
 export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body
-    if (!username || !password) return res.status(400).send('Usernane and password are required')
+    if (!username || !password) return res.status(400).send('Username and password are required')
 
     try {
         const user = await User.findOne({ username })
@@ -71,22 +71,32 @@ export const login = async (req: Request, res: Response) => {
 //@access         public
 export const getNewAccessToken = async (req: AuthRequest, res: Response) => {
     const REFRESH_TOKEN_KEY = process.env.REFRESH_TOKEN_KEY
-    if(!REFRESH_TOKEN_KEY) throw new Error('Refresh token key is required in env file')
 
-    const cookiesHeader = req.headers.cookie
-    if(!cookiesHeader) return res.status(401).send('Cookies header are required')
+    try {
+        if(!REFRESH_TOKEN_KEY) throw new Error('Refresh token key is required in env file')
 
-    const refreshToken = extractTokenFromHeaders(cookiesHeader,'refresh-token')
-    jwt.verify(refreshToken, REFRESH_TOKEN_KEY, (error, decoded) => {
-        if(error) return res.status(403).send('Invalid refresh token')
-
-        decoded = decoded as JwtPayload
-        const id = decoded.id
-
-        const accessToken = generateToken(id,'ACCESS_TOKEN')
-        res.cookie('access-token', accessToken, {httpOnly: true})
-        res.status(200).end()
-    })
+        const cookiesHeader = req.headers.cookie
+        if(!cookiesHeader) return res.status(403).send('Cookies header are required')
+    
+        const refreshToken = extractTokenFromHeaders(cookiesHeader,'refresh-token')
+        jwt.verify(refreshToken, REFRESH_TOKEN_KEY, (error, decoded) => {
+            if(error) return res.status(403).send('Invalid refresh token')
+    
+            decoded = decoded as JwtPayload
+            const id = decoded.id
+    
+            const accessToken = generateToken(id,'ACCESS_TOKEN')
+            res.cookie('access-token', accessToken, {httpOnly: true})
+            res.status(200).end()
+        })
+        
+    } 
+   
+    catch (error) {
+        res.status(500).send('Internal server error')
+        console.error(error)
+        
+    }
 
 }
 

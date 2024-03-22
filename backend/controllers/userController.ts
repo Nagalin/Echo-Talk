@@ -28,10 +28,12 @@ export const fetchUser = async (req: AuthRequest, res: Response) => {
 
     const user = await User.find({
         $and:[
-            {username: {$regex: username}},
-            {_id: {$ne: myId}}
+            { username: { $regex: new RegExp(username, 'i') } },
+            { _id: { $ne: myId } }
         ]
-    },'-picName -password -__v')
+    }, '-picName -password -__v')
+
+    if(!(!!user)) return res.status(204).send('No user found')
 
     res.status(200).send(user)
 

@@ -12,8 +12,6 @@ const useChat = () => {
     const handleChat = (setData: Dispatch<SetStateAction<any>>) => {
         setMessage('')
         
-       
-       
         socket?.emit("chat", {
             senderId: id,
             chatId:  chatId,

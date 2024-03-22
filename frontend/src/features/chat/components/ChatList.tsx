@@ -53,7 +53,8 @@ const ChatList = () => {
     <VStack gap={5} h='100vh'background='white'>
       {data.map(currData => (
         <Box
-         onClick={()=>handleClick(currData.lastMessage.reciever.username === username ?
+         onClick={()=>handleClick(
+          currData.lastMessage.reciever.username === username ?
           currData.lastMessage.sender._id:
           currData.lastMessage.reciever._id
           )}
@@ -65,7 +66,7 @@ const ChatList = () => {
           minWidth='400'
         >
           <Image
-            rounded={5}
+            borderRadius='full'
             boxSize='60px'
             objectFit='cover'
             src={`http://localhost:8000/${picName}`}

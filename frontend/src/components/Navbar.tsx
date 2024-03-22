@@ -38,7 +38,7 @@ const Navbar = () => {
 
                 <Box display='flex' gap={4} alignItems='center' marginRight={3}>
                     <Image
-                        rounded={5}
+                        borderRadius='full'
                         boxSize='60px'
                         objectFit='cover'
                         src= {`http://localhost:8000/${picName}`}
